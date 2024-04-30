@@ -130,7 +130,7 @@ function jogoDoBicho(numero) {
     "Borboleta": "🦋",
     "Cachorro": "🐶",
     "Cabra": "🐐",
-    "Carneiro": "🐑",
+    "Carneiro": "🐏",
     "Camelo": "🐫",
     "Cobra": "🐍",
     "Coelho": "🐰",
@@ -152,10 +152,12 @@ function jogoDoBicho(numero) {
   };
 
   // Verificando a qual grupo o número pertence
+  let numeroGrupo;
   for (const grupo in grupos) {
     const intervalo = grupos[grupo];
     if (num >= intervalo[0] && num <= intervalo[1]) {
-      return `${grupo} ${emojis[grupo]} - Grupo: ${numero}`;
+      numeroGrupo = Object.keys(grupos).find(key => grupos[key] === intervalo);
+      return `${grupo} ${emojis[grupo]} - Grupo: ${Object.keys(grupos).indexOf(grupo) + 1}`;
     }
   }
 
@@ -164,24 +166,21 @@ function jogoDoBicho(numero) {
 }
 
 // Exemplo de uso
-const resultado = jogoDoBicho("61");
-console.log(`Resultado: ${resultado}`);
+console.log(jogoDoBicho("61")); // Saída esperada: Leão 🦁 - Grupo: 15
+console.log(jogoDoBicho("28")); // Saída esperada: Jacaré 🐊 - Grupo: 7
 
-
-
-// Lista de animais (cada grupo tem 4 bichos)
 
 function App() {
   const [lotteryResult, setLotteryResult] = useState(mock);
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchLotteryResult = async () => {
       const result = await axios.get('https://loteriascaixa-api.herokuapp.com/api/federal/latest');
       setLotteryResult(result.data);
     }
     fetchLotteryResult();
-  }, []);
+  }, []);*/
 
   return (
     <div className='d-flex flex-column align-items-center justify-content-center mt-3'>
