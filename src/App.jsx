@@ -174,26 +174,26 @@ function App() {
   const [lotteryResult, setLotteryResult] = useState(mock);
 
 
-  /*useEffect(() => {
+  useEffect(() => {
     const fetchLotteryResult = async () => {
       const result = await axios.get('https://loteriascaixa-api.herokuapp.com/api/federal/latest');
       setLotteryResult(result.data);
     }
     fetchLotteryResult();
-  }, []);*/
+  }, []);
 
   return (
     <div className='d-flex flex-column align-items-center justify-content-center mt-3'>
       <h2>Resultado Loteria Federal</h2>
       <h3>{lotteryResult.data}</h3>
       <Button className='mt-2'>Atualizar resultado</Button>
-      <div className='d-flex flex-column mt-3'>
+      <div className='d-flex flex-column mt-2'>
         <h5>Números sorteados:</h5>
-        <div className='d-flex flex-column mt-2'>
+        <div className='d-flex flex-column mt-1'>
           {lotteryResult.dezenasOrdemSorteio.map((item, index) => (
-            <Card className='mt-2 p-2 d-flex flex-column'>
-              <span className='h4' key={item}>{`${index + 1}° prêmio: ${item}`}</span>
-              <span>{`${jogoDoBicho(item.slice(-2))}`}</span>
+            <Card className='mt-1 p-2 d-flex flex-column'>
+              <span className='h2' key={item}>{`${index + 1}° prêmio: ${item}`}</span>
+              <span className='h3'>{`${jogoDoBicho(item.slice(-2))}`}</span>
             </Card>
 
           ))}
