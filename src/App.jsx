@@ -3,6 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { Button, Card } from 'react-bootstrap';
 import axios from 'axios';
+import { ClipLoader, MoonLoader, SyncLoader } from 'react-spinners';
 
 const mock = {
   "loteria": "megasena",
@@ -172,23 +173,28 @@ console.log(jogoDoBicho("28")); // Saída esperada: Jacaré 🐊 - Grupo: 7
 
 function App() {
   const [lotteryResult, setLotteryResult] = useState(mock);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchLotteryResult = async () => {
+    setIsLoading(true);
+    const result = await axios.get('https://loteriascaixa-api.herokuapp.com/api/federal/latest');
+    setLotteryResult(result.data);
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    const fetchLotteryResult = async () => {
-      const result = await axios.get('https://loteriascaixa-api.herokuapp.com/api/federal/latest');
-      setLotteryResult(result.data);
-    }
     fetchLotteryResult();
   }, []);
 
   return (
-    <div className='d-flex flex-column align-items-center justify-content-center mt-3'>
+    <div className='d-flex flex-column align-items-center justify-content-center mt-2'>
       <h2>Resultado Loteria Federal</h2>
       <h3>{lotteryResult.data}</h3>
-      <Button className='mt-2'>Atualizar resultado</Button>
-      <div className='d-flex flex-column mt-2'>
-        <h5>Números sorteados:</h5>
+      <div className='d-flex align-items-center gap-4'>
+        <Button disabled={isLoading} onClick={fetchLotteryResult} className='mt-2'>Atualizar resultado</Button>
+        {isLoading && <ClipLoader size={30} className='my-3' color="#0d6efd" />}
+      </div>
+      <div className='d-flex flex-column mt-2 align-items-center'>
         <div className='d-flex flex-column mt-1'>
           {lotteryResult.dezenasOrdemSorteio.map((item, index) => (
             <Card className='mt-1 p-2 d-flex flex-column'>
